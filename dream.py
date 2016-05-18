@@ -27,6 +27,7 @@ class Dream(webapp2.RequestHandler):
 
 		new_dream = db_models.Dream()
 		new_dream.user = user_key
+		new_dream.username = user.name
 
 		description = self.request.get('description', default_value=None)
 		if description:
