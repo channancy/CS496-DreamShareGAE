@@ -78,7 +78,7 @@ class Dream(webapp2.RequestHandler):
 
 		# Else no 'id' in keyword arguments, then return all the dreams
 		else:
-			q = db_models.Dream.query()
+			q = db_models.Dream.query().order(-db_models.Dream.date)
 			keys = q.fetch(keys_only=True)
 			# Make Key by passing in Type and ID
 			# Make dictionary of all database properties and values for each dream

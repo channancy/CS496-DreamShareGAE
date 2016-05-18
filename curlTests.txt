@@ -18,8 +18,14 @@ curl --data-urlencode "description=Pilot a helicopter!" -H "Accept: application/
 6. Add a dream by user 5649391675244544:
 curl --data-urlencode "description=Open a jewelry boutique!" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/user/5649391675244544
 
-7. Edit dream with id 5659313586569216
+7. Add a dream by user 5649391675244544:
+curl --data-urlencode "description=Run a marathon!" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/user/5649391675244544
+
+8. Add a dream by user 5649391675244544:
+curl --data-urlencode "description=Train under a renowned chef!" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/user/5649391675244544
+
+Edit dream with id 5659313586569216
 curl -X PUT --data-urlencode "description=Design silk scarves!" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/5659313586569216
 
-8. Delete dream with id 5654313976201216
+Delete dream with id 5654313976201216
 curl -X DELETE -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/5654313976201216
