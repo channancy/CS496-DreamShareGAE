@@ -1,0 +1,25 @@
+python appcfg.py -A dreamshare2-1314 -V v1 update dreamshare2/
+
+1. Create a new user
+curl --data-urlencode "name=John S." --data-urlencode "location=Los Angeles, CA" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/user
+
+2. Create a new user
+curl --data-urlencode "name=Jane D." --data-urlencode "location=New York, NY" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/user
+
+3. Add a dream by user 5634472569470976:
+curl --data-urlencode "description=Direct a movie!" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/user/5634472569470976
+
+4. Add another dream by user 5634472569470976:
+curl --data-urlencode "description=Surf with sharks!" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/user/5634472569470976
+
+5. Add another dream by user 5634472569470976:
+curl --data-urlencode "description=Pilot a helicopter!" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/user/5634472569470976
+
+6. Add a dream by user 5649391675244544:
+curl --data-urlencode "description=Open a jewelry boutique!" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/user/5649391675244544
+
+7. Edit dream with id 5659313586569216
+curl -X PUT --data-urlencode "description=Design silk scarves!" -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/5659313586569216
+
+8. Delete dream with id 5654313976201216
+curl -X DELETE -H "Accept: application/json" http://dreamshare2-1314.appspot.com/dream/5654313976201216
