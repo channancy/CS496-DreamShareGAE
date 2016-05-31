@@ -102,7 +102,8 @@ class Dream(webapp2.RequestHandler):
 			user = user_key.get()
 
 			# Filter by user id and order by date
-			q = db_models.Dream.query().filter('user =', user_key).order(-db_models.Dream.date)
+			# http://stackoverflow.com/questions/11750221/im-trying-to-use-a-classmethod-with-filter-in-ndb-and-receiving-a-error-ndb
+			q = db_models.Dream.query().filter(db_models.Dream.user == user_key).order(-db_models.Dream.date)
 			keys = q.fetch(keys_only=True)
 			results = { 'dreams' : [ndb.Key(db_models.Dream, x.id()).get().to_dict() for x in keys]}
 			self.response.write(json.dumps(results))

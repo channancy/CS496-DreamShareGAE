@@ -1,0 +1,8 @@
+# http://stackoverflow.com/questions/29807215/google-app-engine-error-needindexerror-no-matching-index-found
+
+indexes:
+- kind: Dream
+  properties:
+  - name: user
+  - name: date
+    direction: desc

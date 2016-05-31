@@ -25,6 +25,9 @@ curl --data-urlencode "description=Run a marathon!" --data-urlencode "location=N
 curl --data-urlencode "description=Train under a renowned chef!" --data-urlencode "location=New York, NY" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/dreams/users/5649391675244544
 
 Get all dreams by user 5629499534213120:
+http://dreamshare3-1328.appspot.com/dreams/users/5629499534213120
+
+Get all dreams by user 5629499534213120:
 http://dreamshare3-1328.appspot.com/dreams/users/5649391675244544
 
 Edit dream with id 5639445604728832
