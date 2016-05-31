@@ -9,7 +9,7 @@ class User(webapp2.RequestHandler):
 
 		POST Body Variables:
 		name - user name (Required)
-		location - user location (Required)
+		password - user password (Required)
 		"""
 		if 'application/json' not in self.request.accept:
 			self.response.status = 406
@@ -17,8 +17,9 @@ class User(webapp2.RequestHandler):
 			return
 
 		new_user = db_models.User()
+
+		# Set name
 		name = self.request.get('name', default_value=None)
-		
 		if name:
 			new_user.name = name
 		else:
@@ -26,13 +27,13 @@ class User(webapp2.RequestHandler):
 			self.response.status_message = "Invalid request, name is required"
 			return
 
-		location = self.request.get('location', default_value=None)
-		
-		if location:
-			new_user.location = location
+		# Set password
+		password = self.request.get('password', default_value=None)
+		if password:
+			new_user.password = password
 		else:
 			self.response.status = 400
-			self.response.status_message = "Invalid request, location is required"
+			self.response.status_message = "Invalid request, password is required"
 			return
 
 		key = new_user.put()

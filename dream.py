@@ -10,6 +10,7 @@ class Dream(webapp2.RequestHandler):
 		"""Creates a Dream entity
 
 		POST Body Variables:
+		location - user's location as determined by geolocation (Required)
 		description - description of the user dream (Required)
 		"""
 		if 'application/json' not in self.request.accept:
@@ -26,9 +27,21 @@ class Dream(webapp2.RequestHandler):
 			user = user_key.get()
 
 		new_dream = db_models.Dream()
+		# Set user key
 		new_dream.user = user_key
+		# Set user name
 		new_dream.username = user.name
 
+		# Set location
+		location = self.request.get('location', default_value=None)
+		if location:
+			new_dream.location = location
+		else:
+			self.response.status = 400
+			self.response.status_message = "Invalid request, location is required"
+			return
+
+		# Set description
 		description = self.request.get('description', default_value=None)
 		if description:
 			new_dream.description = description
@@ -51,13 +64,14 @@ class Dream(webapp2.RequestHandler):
 
 	def get(self, **kwargs):
 		"""
-		Show a dream by id or list all dreams
+		Show dreams (by dream id, by user id, or all)
 		"""
 		if 'application/json' not in self.request.accept:
 			self.response.status = 406
 			self.response.status_message = "Not acceptable, API only supports application/json MIME type"
 			return
 
+		# By dream id
 		# If 'id' specified in keyword arguments
 		# See main.py: r'/dream/<id:[0-9]+><:/?>'
 		if 'id' in kwargs:
@@ -77,7 +91,23 @@ class Dream(webapp2.RequestHandler):
 			out = dream.to_dict()
 			self.response.write(json.dumps(out))
 
-		# Else no 'id' in keyword arguments, then return all the dreams
+		# By user id
+		if 'uid' in kwargs:
+			# Pull out user id
+			user_key = ndb.Key(db_models.User, int(kwargs['uid']))
+			if not user_key:
+				self.response.status = 404
+				self.response.status_message = "User Not Found"
+				return
+			user = user_key.get()
+
+			# Filter by user id and order by date
+			q = db_models.Dream.query().filter('user =', user_key).order(-db_models.Dream.date)
+			keys = q.fetch(keys_only=True)
+			results = { 'dreams' : [ndb.Key(db_models.Dream, x.id()).get().to_dict() for x in keys]}
+			self.response.write(json.dumps(results))
+
+		# Else no 'id'/'uid' in keyword arguments, then return all the dreams
 		else:
 			q = db_models.Dream.query().order(-db_models.Dream.date)
 			keys = q.fetch(keys_only=True)

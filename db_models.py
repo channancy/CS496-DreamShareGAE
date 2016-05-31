@@ -14,8 +14,9 @@ class Model(ndb.Model):
 class Dream(Model):
 	user = ndb.KeyProperty(required=True)
 	username = ndb.StringProperty(required=True)
-	description = ndb.StringProperty(required=True)
 	date = ndb.DateTimeProperty(auto_now_add=True)
+	location = ndb.StringProperty(required=True)
+	description = ndb.StringProperty(required=True)
 
 	def to_dict(self):
 		# http://stackoverflow.com/questions/1531501/json-serialization-of-google-app-engine-models
@@ -28,7 +29,7 @@ class Dream(Model):
 
 class User(Model):
 	name = ndb.StringProperty(required=True)
-	location = ndb.StringProperty(required=True)
+	password = ndb.StringProperty(required=True)
 	dreams = ndb.KeyProperty(repeated=True)
 
 	def to_dict(self):

@@ -18,9 +18,9 @@ import webapp2
 from google.appengine.api import oauth
 
 app = webapp2.WSGIApplication([
-	('/user', 'user.User'),
+	('/users', 'user.User'),
 ], debug=True)
-app.router.add(webapp2.Route(r'/user/<id:[0-9]+><:/?>', 'user.User'))
-app.router.add(webapp2.Route(r'/dream', 'dream.Dream'))
-app.router.add(webapp2.Route(r'/dream/<id:[0-9]+><:/?>', 'dream.Dream'))
-app.router.add(webapp2.Route(r'/dream/user/<uid:[0-9]+><:/?>', 'dream.Dream'))
+app.router.add(webapp2.Route(r'/users/<id:[0-9]+><:/?>', 'user.User'))
+app.router.add(webapp2.Route(r'/dreams', 'dream.Dream'))
+app.router.add(webapp2.Route(r'/dreams/<id:[0-9]+><:/?>', 'dream.Dream'))
+app.router.add(webapp2.Route(r'/dreams/users/<uid:[0-9]+><:/?>', 'dream.Dream'))
