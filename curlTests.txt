@@ -1,27 +1,30 @@
 python appcfg.py -A dreamshare3-1328 -V v1 update dreamshare2/
 
-1. Create a new user
-curl --data-urlencode "name=John S." --data-urlencode "password=apple" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/users
+Create a new user
+curl --data-urlencode "name=John S." --data-urlencode "password=apple" --data-urlencode "email=john@gmail.com" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/users
 
-2. Create a new user
-curl --data-urlencode "name=Jane D." --data-urlencode "password=cider" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/users
+Create a new user
+curl --data-urlencode "name=Jane D." --data-urlencode "password=cider" --data-urlencode "email=jane@gmail.com" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/users
 
-3. Add a dream by user 5629499534213120:
+Create a new user
+curl --data-urlencode "name=Ralph D." --data-urlencode "password=potato" --data-urlencode "email=ralph@gmail.com" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/users
+
+Add a dream by user 5629499534213120:
 curl --data-urlencode "description=Direct a movie!" --data-urlencode "location=Los Angeles, CA" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/dreams/users/5629499534213120
 
-4. Add another dream by user 5629499534213120:
+Add another dream by user 5629499534213120:
 curl --data-urlencode "description=Surf with sharks!" --data-urlencode "location=Santa Monica, CA" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/dreams/users/5629499534213120
 
-5. Add another dream by user 5629499534213120:
+Add another dream by user 5629499534213120:
 curl --data-urlencode "description=Pilot a helicopter!" --data-urlencode "location=Santa Monica, CA" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/dreams/users/5629499534213120
 
-6. Add a dream by user 5649391675244544:
+Add a dream by user 5649391675244544:
 curl --data-urlencode "description=Open a jewelry boutique!" --data-urlencode "location=New York, NY" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/dreams/users/5649391675244544
 
-7. Add another dream by user 5649391675244544:
+Add another dream by user 5649391675244544:
 curl --data-urlencode "description=Run a marathon!" --data-urlencode "location=New York, NY" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/dreams/users/5649391675244544
 
-8. Add another dream by user 5649391675244544:
+Add another dream by user 5649391675244544:
 curl --data-urlencode "description=Train under a renowned chef!" --data-urlencode "location=New York, NY" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/dreams/users/5649391675244544
 
 Get all dreams by user 5629499534213120:

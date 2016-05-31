@@ -29,6 +29,7 @@ class Dream(Model):
 
 class User(Model):
 	name = ndb.StringProperty(required=True)
+	email = ndb.StringProperty(required=True)
 	password = ndb.StringProperty(required=True)
 	dreams = ndb.KeyProperty(repeated=True)
 

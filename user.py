@@ -9,6 +9,7 @@ class User(webapp2.RequestHandler):
 
 		POST Body Variables:
 		name - user name (Required)
+		email - user email address (Required)
 		password - user password (Required)
 		"""
 		if 'application/json' not in self.request.accept:
@@ -25,6 +26,15 @@ class User(webapp2.RequestHandler):
 		else:
 			self.response.status = 400
 			self.response.status_message = "Invalid request, name is required"
+			return
+
+		# Set email
+		email = self.request.get('email', default_value=None)
+		if email:
+			new_user.email = email
+		else:
+			self.response.status = 400
+			self.response.status_message = "Invalid request, email is required"
 			return
 
 		# Set password
