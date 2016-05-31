@@ -21,6 +21,7 @@ app = webapp2.WSGIApplication([
 	('/users', 'user.User'),
 ], debug=True)
 app.router.add(webapp2.Route(r'/users/<id:[0-9]+><:/?>', 'user.User'))
+app.router.add(webapp2.Route(r'/users/email/<email:.+><:/?>', 'user.User'))
 app.router.add(webapp2.Route(r'/dreams/<id:[0-9]+><:/?>', 'dream.Dream'))
 app.router.add(webapp2.Route(r'/dreams/users/<uid:[0-9]+><:/?>', 'dream.Dream'))
 app.router.add(webapp2.Route(r'/dreams', 'dream.Dream'))

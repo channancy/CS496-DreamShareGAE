@@ -8,7 +8,8 @@ class User(webapp2.RequestHandler):
 		"""Creates a User entity
 
 		POST Body Variables:
-		name - user name (Required)
+		fname - user's first name (Required)
+		lname - user's last name (Required)
 		email - user email address (Required)
 		password - user password (Required)
 		"""
@@ -19,13 +20,22 @@ class User(webapp2.RequestHandler):
 
 		new_user = db_models.User()
 
-		# Set name
-		name = self.request.get('name', default_value=None)
-		if name:
-			new_user.name = name
+		# Set first name
+		fname = self.request.get('fname', default_value=None)
+		if fname:
+			new_user.fname = fname
 		else:
 			self.response.status = 400
-			self.response.status_message = "Invalid request, name is required"
+			self.response.status_message = "Invalid request, first name is required"
+			return
+
+		# Set last name
+		lname = self.request.get('lname', default_value=None)
+		if lname:
+			new_user.lname = lname
+		else:
+			self.response.status = 400
+			self.response.status_message = "Invalid request, last name is required"
 			return
 
 		# Set email
@@ -65,6 +75,12 @@ class User(webapp2.RequestHandler):
 				return
 
 			# Dump that to a json string and write that back as a response
+			out = user.to_dict()
+			self.response.write(json.dumps(out))
+
+		elif 'email' in kwargs:
+			user_email = kwargs['email']
+			user = db_models.User.query().filter(db_models.User.email == user_email).get()
 			out = user.to_dict()
 			self.response.write(json.dumps(out))
 
