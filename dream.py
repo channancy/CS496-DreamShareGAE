@@ -92,7 +92,7 @@ class Dream(webapp2.RequestHandler):
 			self.response.write(json.dumps(out))
 
 		# By user id
-		if 'uid' in kwargs:
+		elif 'uid' in kwargs:
 			# Pull out user id
 			user_key = ndb.Key(db_models.User, int(kwargs['uid']))
 			if not user_key:

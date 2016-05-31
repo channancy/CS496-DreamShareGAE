@@ -30,6 +30,9 @@ http://dreamshare3-1328.appspot.com/dreams/users/5629499534213120
 Get all dreams by user 5629499534213120:
 http://dreamshare3-1328.appspot.com/dreams/users/5649391675244544
 
+Get dream with id of 5722646637445120:
+http://dreamshare3-1328.appspot.com/dreams/5722646637445120
+
 Edit dream with id 5639445604728832
 curl -X PUT --data-urlencode "description=Swim with dolphins!" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/dreams/5639445604728832
 
