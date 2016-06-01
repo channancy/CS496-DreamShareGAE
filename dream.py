@@ -29,8 +29,10 @@ class Dream(webapp2.RequestHandler):
 		new_dream = db_models.Dream()
 		# Set user key
 		new_dream.user = user_key
-		# Set user name
-		new_dream.username = user.name
+		# Set user first name
+		new_dream.userFname = user.fname
+		# Set user last name
+		new_dream.userLname = user.lname
 
 		# Set location
 		location = self.request.get('location', default_value=None)
@@ -91,19 +93,18 @@ class Dream(webapp2.RequestHandler):
 			out = dream.to_dict()
 			self.response.write(json.dumps(out))
 
-		# By user id
-		elif 'uid' in kwargs:
-			# Pull out user id
-			user_key = ndb.Key(db_models.User, int(kwargs['uid']))
-			if not user_key:
+		# By user email
+		elif 'email' in kwargs:
+			user_email = kwargs['email']
+			user = db_models.User.query().filter(db_models.User.email == user_email).get()
+			if not user:
 				self.response.status = 404
 				self.response.status_message = "User Not Found"
 				return
-			user = user_key.get()
 
 			# Filter by user id and order by date
 			# http://stackoverflow.com/questions/11750221/im-trying-to-use-a-classmethod-with-filter-in-ndb-and-receiving-a-error-ndb
-			q = db_models.Dream.query().filter(db_models.Dream.user == user_key).order(-db_models.Dream.date)
+			q = db_models.Dream.query().filter(db_models.Dream.user == user.key).order(-db_models.Dream.date)
 			keys = q.fetch(keys_only=True)
 			results = { 'dreams' : [ndb.Key(db_models.Dream, x.id()).get().to_dict() for x in keys]}
 			self.response.write(json.dumps(results))
