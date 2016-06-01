@@ -11,6 +11,9 @@ curl --data-urlencode "fname=Ralph" --data-urlencode "lname=George" --data-urlen
 
 curl --data-urlencode "fname=Irene" --data-urlencode "lname=Pearson" --data-urlencode "password=pillows" --data-urlencode "email=irene@gmail.com" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/users
 
+Add a dream by user with email john@gmail.com:
+curl --data-urlencode "description=Tame a falcon!" --data-urlencode "location=Los Angeles, CA" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/dreams/email/john@gmail.com
+
 Add a dream by user 5629499534213120:
 curl --data-urlencode "description=Direct a movie!" --data-urlencode "location=Los Angeles, CA" -H "Accept: application/json" http://dreamshare3-1328.appspot.com/dreams/users/5629499534213120
 

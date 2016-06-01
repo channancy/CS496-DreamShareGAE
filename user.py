@@ -18,6 +18,7 @@ class User(webapp2.RequestHandler):
 			self.response.status_message = "Not acceptable, API only supports application/json MIME type"
 			return
 
+		# Create user
 		new_user = db_models.User()
 
 		# Set first name
@@ -56,6 +57,7 @@ class User(webapp2.RequestHandler):
 			self.response.status_message = "Invalid request, password is required"
 			return
 
+		# Save to database
 		key = new_user.put()
 		out = new_user.to_dict()
 		self.response.write(json.dumps(out))
@@ -67,6 +69,7 @@ class User(webapp2.RequestHandler):
 			self.response.status_message = "Not acceptable, API only supports application/json MIME type"
 			return
 
+		# Get user by id
 		if 'id' in kwargs:
 			user = ndb.Key(db_models.User, int(kwargs['id'])).get()
 			if not user:
@@ -78,13 +81,14 @@ class User(webapp2.RequestHandler):
 			out = user.to_dict()
 			self.response.write(json.dumps(out))
 
+		# Get user by email
 		elif 'email' in kwargs:
 			user_email = kwargs['email']
 			user = db_models.User.query().filter(db_models.User.email == user_email).get()
 			out = user.to_dict()
 			self.response.write(json.dumps(out))
 
-		# Else no 'id' in keyword arguments, then return all the users
+		# Else return all the users
 		else:
 			q = db_models.User.query()
 			keys = q.fetch(keys_only=True)
