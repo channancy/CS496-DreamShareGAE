@@ -138,9 +138,8 @@ class Dream(webapp2.RequestHandler):
 
 			description = self.request.get('description', default_value=None)
 			if description:
-				# Update description and date of dream
+				# Update description
 				dream.description = description
-				dream.date = datetime.datetime.now()
 
 			# Save changes to dream
 			dream.put()
