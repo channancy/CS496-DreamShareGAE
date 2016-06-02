@@ -13,7 +13,8 @@ class Model(ndb.Model):
 
 class Dream(Model):
 	user = ndb.KeyProperty(required=True)
-	username = ndb.StringProperty(required=True)
+	userFname = ndb.StringProperty(required=True)
+	userLname = ndb.StringProperty(required=True)
 	date = ndb.DateTimeProperty(auto_now_add=True)
 	location = ndb.StringProperty(required=True)
 	description = ndb.StringProperty(required=True)
@@ -28,7 +29,8 @@ class Dream(Model):
 		return d
 
 class User(Model):
-	name = ndb.StringProperty(required=True)
+	fname = ndb.StringProperty(required=True)
+	lname = ndb.StringProperty(required=True)
 	email = ndb.StringProperty(required=True)
 	password = ndb.StringProperty(required=True)
 	dreams = ndb.KeyProperty(repeated=True)

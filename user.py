@@ -8,7 +8,8 @@ class User(webapp2.RequestHandler):
 		"""Creates a User entity
 
 		POST Body Variables:
-		name - user name (Required)
+		fname - user's first name (Required)
+		lname - user's last name (Required)
 		email - user email address (Required)
 		password - user password (Required)
 		"""
@@ -17,15 +18,25 @@ class User(webapp2.RequestHandler):
 			self.response.status_message = "Not acceptable, API only supports application/json MIME type"
 			return
 
+		# Create user
 		new_user = db_models.User()
 
-		# Set name
-		name = self.request.get('name', default_value=None)
-		if name:
-			new_user.name = name
+		# Set first name
+		fname = self.request.get('fname', default_value=None)
+		if fname:
+			new_user.fname = fname
 		else:
 			self.response.status = 400
-			self.response.status_message = "Invalid request, name is required"
+			self.response.status_message = "Invalid request, first name is required"
+			return
+
+		# Set last name
+		lname = self.request.get('lname', default_value=None)
+		if lname:
+			new_user.lname = lname
+		else:
+			self.response.status = 400
+			self.response.status_message = "Invalid request, last name is required"
 			return
 
 		# Set email
@@ -46,6 +57,7 @@ class User(webapp2.RequestHandler):
 			self.response.status_message = "Invalid request, password is required"
 			return
 
+		# Save to database
 		key = new_user.put()
 		out = new_user.to_dict()
 		self.response.write(json.dumps(out))
@@ -57,6 +69,7 @@ class User(webapp2.RequestHandler):
 			self.response.status_message = "Not acceptable, API only supports application/json MIME type"
 			return
 
+		# Get user by id
 		if 'id' in kwargs:
 			user = ndb.Key(db_models.User, int(kwargs['id'])).get()
 			if not user:
@@ -68,7 +81,19 @@ class User(webapp2.RequestHandler):
 			out = user.to_dict()
 			self.response.write(json.dumps(out))
 
-		# Else no 'id' in keyword arguments, then return all the users
+		# Get user by email
+		elif 'email' in kwargs:
+			user_email = kwargs['email']
+			user = db_models.User.query().filter(db_models.User.email == user_email).get()
+			if not user:
+				self.response.status = 404
+				self.response.status_message = "User Not Found"
+				return
+			
+			out = user.to_dict()
+			self.response.write(json.dumps(out))
+
+		# Else return all the users
 		else:
 			q = db_models.User.query()
 			keys = q.fetch(keys_only=True)

@@ -17,20 +17,23 @@ class Dream(webapp2.RequestHandler):
 			self.response.status = 406
 			self.response.status_message = "Not acceptable, API only supports application/json MIME type"
 
-		if 'uid' in kwargs:
-			# Pull out user id
-			user_key = ndb.Key(db_models.User, int(kwargs['uid']))
-			if not user_key:
+		# Get user by email
+		if 'email' in kwargs:
+			user_email = kwargs['email']
+			user = db_models.User.query().filter(db_models.User.email == user_email).get()
+			if not user:
 				self.response.status = 404
 				self.response.status_message = "User Not Found"
 				return
-			user = user_key.get()
 
+		# Create dream
 		new_dream = db_models.Dream()
 		# Set user key
-		new_dream.user = user_key
-		# Set user name
-		new_dream.username = user.name
+		new_dream.user = user.key
+		# Set user first name
+		new_dream.userFname = user.fname
+		# Set user last name
+		new_dream.userLname = user.lname
 
 		# Set location
 		location = self.request.get('location', default_value=None)
@@ -91,24 +94,23 @@ class Dream(webapp2.RequestHandler):
 			out = dream.to_dict()
 			self.response.write(json.dumps(out))
 
-		# By user id
-		elif 'uid' in kwargs:
-			# Pull out user id
-			user_key = ndb.Key(db_models.User, int(kwargs['uid']))
-			if not user_key:
+		# By user email
+		elif 'email' in kwargs:
+			user_email = kwargs['email']
+			user = db_models.User.query().filter(db_models.User.email == user_email).get()
+			if not user:
 				self.response.status = 404
 				self.response.status_message = "User Not Found"
 				return
-			user = user_key.get()
 
-			# Filter by user id and order by date
+			# Filter by user key and order by date
 			# http://stackoverflow.com/questions/11750221/im-trying-to-use-a-classmethod-with-filter-in-ndb-and-receiving-a-error-ndb
-			q = db_models.Dream.query().filter(db_models.Dream.user == user_key).order(-db_models.Dream.date)
+			q = db_models.Dream.query().filter(db_models.Dream.user == user.key).order(-db_models.Dream.date)
 			keys = q.fetch(keys_only=True)
 			results = { 'dreams' : [ndb.Key(db_models.Dream, x.id()).get().to_dict() for x in keys]}
 			self.response.write(json.dumps(results))
 
-		# Else no 'id'/'uid' in keyword arguments, then return all the dreams
+		# Else no 'id'/'email' in keyword arguments, then return all the dreams
 		else:
 			q = db_models.Dream.query().order(-db_models.Dream.date)
 			keys = q.fetch(keys_only=True)
@@ -136,9 +138,8 @@ class Dream(webapp2.RequestHandler):
 
 			description = self.request.get('description', default_value=None)
 			if description:
-				# Update description and date of dream
+				# Update description
 				dream.description = description
-				dream.date = datetime.datetime.now()
 
 			# Save changes to dream
 			dream.put()
