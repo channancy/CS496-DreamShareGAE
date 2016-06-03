@@ -42,7 +42,8 @@ class User(webapp2.RequestHandler):
 		# Set email
 		email = self.request.get('email', default_value=None)
 		if email:
-			new_user.email = email
+			# Convert to lowercase
+			new_user.email = email.lower()
 		else:
 			self.response.status = 400
 			self.response.status_message = "Invalid request, email is required"
@@ -83,7 +84,8 @@ class User(webapp2.RequestHandler):
 
 		# Get user by email
 		elif 'email' in kwargs:
-			user_email = kwargs['email']
+			# Case-insensitive search
+			user_email = kwargs['email'].lower()
 			user = db_models.User.query().filter(db_models.User.email == user_email).get()
 			if not user:
 				self.response.status = 404

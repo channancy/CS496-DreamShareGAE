@@ -19,7 +19,8 @@ class Dream(webapp2.RequestHandler):
 
 		# Get user by email
 		if 'email' in kwargs:
-			user_email = kwargs['email']
+			# Case-insensitive search
+			user_email = kwargs['email'].lower()
 			user = db_models.User.query().filter(db_models.User.email == user_email).get()
 			if not user:
 				self.response.status = 404
@@ -96,7 +97,8 @@ class Dream(webapp2.RequestHandler):
 
 		# By user email
 		elif 'email' in kwargs:
-			user_email = kwargs['email']
+			# Case-insensitive search
+			user_email = kwargs['email'].lower()
 			user = db_models.User.query().filter(db_models.User.email == user_email).get()
 			if not user:
 				self.response.status = 404
